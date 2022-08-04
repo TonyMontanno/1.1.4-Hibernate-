@@ -2,6 +2,8 @@ package jm.task.core.jdbc;
 import jm.task.core.jdbc.service.UserService;
 import jm.task.core.jdbc.service.UserServiceImpl;
 
+import static jm.task.core.jdbc.util.Util.connectionClose;
+
 public class Main {
     public static void main(String[] args) {
 
@@ -14,6 +16,7 @@ public class Main {
         userService.cleanUsersTable();
         userService.removeUserById(3);
         userService.dropUsersTable();
+        connectionClose();
 
     }
 }
