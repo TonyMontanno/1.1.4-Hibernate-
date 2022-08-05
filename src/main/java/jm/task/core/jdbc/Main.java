@@ -1,13 +1,15 @@
 package jm.task.core.jdbc;
-import jm.task.core.jdbc.service.UserService;
-import jm.task.core.jdbc.service.UserServiceImpl;
+import jm.task.core.jdbc.dao.UserDao;
+import jm.task.core.jdbc.dao.UserDaoHibernateImpl;
+
+
 
 import static jm.task.core.jdbc.util.Util.connectionClose;
 
 public class Main {
     public static void main(String[] args) {
 
-        UserService userService =  new UserServiceImpl();
+        UserDao userService = new UserDaoHibernateImpl();
         userService.createUsersTable();
         userService.saveUser("Vasiliy", "Pupkin", (byte) 30);
         userService.saveUser("Gena", "Bukin", (byte) 50);
