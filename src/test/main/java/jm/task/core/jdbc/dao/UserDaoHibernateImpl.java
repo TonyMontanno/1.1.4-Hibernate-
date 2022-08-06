@@ -3,7 +3,6 @@ package jm.task.core.jdbc.dao;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import java.util.ArrayList;
@@ -11,7 +10,6 @@ import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
 
-    SessionFactory sessionFactory = new Util().getSessionFactory();
 
 
 
@@ -36,7 +34,7 @@ public class UserDaoHibernateImpl implements UserDao {
                     + "  PRIMARY KEY (id))";
 
             transaction = session.beginTransaction();
-            session.createNativeQuery(sql);
+            session.createNativeQuery(sql).executeUpdate();
             transaction.commit();
 
         } catch (Exception e) {
@@ -55,7 +53,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
         try (Session session = Util.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            session.createNativeQuery("DROP TABLE IF EXISTS User");
+            session.createNativeQuery("DROP TABLE IF EXISTS User").executeUpdate();
             transaction.commit();
 
         } catch (Exception e) {
@@ -94,9 +92,12 @@ public class UserDaoHibernateImpl implements UserDao {
 
         try (Session session = Util.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
+
             user = session.get(User.class,id);
             session.delete(user);
+
             transaction.commit();
+
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
